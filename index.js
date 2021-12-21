@@ -10,28 +10,28 @@ const Questions = require('./lib/questions');
 
 const promptUser = function() {
     console.log("Hello Manager! Please begin by entering your information.");
-    const parsed = JSON.parse(Questions);
-    const managerQuestions = parsed[0];
-    const engineerQuestions = parsed[1];
-    const internQuestions = parsed[2];
 
     inquirer
         .prompt(managerQuestions)
         .then(answers => {
-
-            if (answers.newMember === 'Engineer') {
-                inquirer.prompt(engineerQuestions);
-            } else if (answers.newMember === 'Intern') {
-                inquirer.prompt(internQuestions);
-            } else {
-                console.log('Finish Adding Team Members!');
-            }
-
+            questionHandler(answers);
         })
         .catch(err => {
             console.log(err);
         });
 
+
+};
+
+const questionHandler = function(answers) {
+
+    if (answers.newMember === 'Engineer') {
+        inquirer.prompt(engineerQuestions);
+    } else if (answers.newMember === 'Intern') {
+        inquirer.prompt(internQuestions);
+    } else {
+        console.log('Finish Adding Team Members!');
+    }
 
 };
 
