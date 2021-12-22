@@ -6,6 +6,10 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
+const { generateSite } = require('./src/generateHTML');
+
+const fileName = './dist/index.html';
+
 const teamQuestions = [{
         type: 'input',
         name: 'name',
@@ -142,6 +146,18 @@ const teamQuestions = [{
     }
 ]
 
+const createTeamPage = function(htmlData) {
+    fs.writeFile(fileName, htmlData.toString(), function(err) {
+
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log("Your team page has been created!");
+
+    });
+};
+
 
 
 const promptUser = function() {
@@ -150,7 +166,10 @@ const promptUser = function() {
     inquirer
         .prompt(teamQuestions)
         .then(answers => {
-            console.log(answers);
+            return generateSite(answers);
+        })
+        .then(htmlData => {
+            return createTeamPage(htmlData);
         })
         .catch(err => {
             console.log(err);
