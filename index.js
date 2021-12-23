@@ -166,11 +166,12 @@ const promptUser = function() {
     inquirer
         .prompt(teamQuestions)
         .then(answers => {
-            return generateSite(answers);
+            // return generateSite(answers);
+            return console.log(answers);
         })
-        .then(htmlData => {
-            return createTeamPage(htmlData);
-        })
+        // .then(htmlData => {
+        //     return createTeamPage(htmlData);
+        // })
         .catch(err => {
             console.log(err);
         });
