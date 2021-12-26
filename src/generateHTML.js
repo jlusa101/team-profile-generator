@@ -1,43 +1,53 @@
 const generateCard = (teamData) => {
-    if (teamData.type === 'Engineer') {
-        return `
+    return `
+      ${teamData
+        .filter(({ type }) => type === 'Engineer')
+        .map(({ name, type, id, email, github }) => {
+          return `
+          <div class="card">
+                  <div class="card-body">   
+                      <h4 class="card-title">${name}</h4>
+                      <h6 class="card-subtitle mb-2 text-muted">${type}</h6>
+                      <p>ID: ${id}</p>
+                      <p>Email: <a href="mailto:${email}" class="card-link">${email}</a></p>
+                      <p>Github: <a href="#!" class="card-link">${github}</a></p>
+                  </div>
+              </div>
+        `;
+        })
+        .join('')}
+
+        ${teamData
+            .filter(({ type }) => type === 'Intern')
+            .map(({ name, type, id, email, school }) => {
+              return `
+              <div class="card">
+                      <div class="card-body">   
+                          <h4 class="card-title">${name}</h4>
+                          <h6 class="card-subtitle mb-2 text-muted">${type}</h6>
+                          <p>ID: ${id}</p>
+                          <p>Email: <a href="mailto:${email}" class="card-link">${email}</a></p>
+                          <p>School: ${school}</p>
+                      </div>
+                  </div>
+            `;
+            })
+            .join('')}
+    `;
+  };
+
+const generateManagerCard = manager => {
+    return `
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">${teamData.name}</h4>
-            <h6 class="card-subtitle mb-2 text-muted">${teamData.type}</h6>
-            <p>Email: <a href="mailto:${teamData.email}" class="card-link">${teamData.email}</a></p>
-            </br>
-            <p>Github: <a href="#!" class="card-link">${teamData.github}</a></p>
+            <h4 class="card-title">${manager.name}</h4>
+            <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
+            <p>ID: ${manager.id}</p>
+            <p>Email: <a href="mailto:${manager.email}" class="card-link">${manager.email}</a></p>
+            <p>Office Number: ${manager.officeNumber}</p>
         </div>
     </div>
     `;
-    } else if (teamData.type === 'Intern') {
-        return `
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">${teamData.name}</h4>
-                <h6 class="card-subtitle mb-2 text-muted">${teamData.type}</h6>
-                </br>
-                <p>ID: ${teamData.id}</p>
-                </br>
-                <p>Email: <a href="mailto:${teamData.email}" class="card-link">${teamData.email}</a></p>
-                </br>
-                <p>School: ${teamData.school}</p>
-            </div>
-        </div>
-        `;
-    } else {
-        return `
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">${teamData.name}</h4>
-                <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
-                <p>Email: <a href="mailto:${teamData.email}" class="card-link">${teamData.email}</a></p>
-                <p>Office Number: ${teamData.officeNumber}</p>
-            </div>
-        </div>
-        `;
-    }
 };
 
 const generateSite = (data) => {
@@ -57,7 +67,10 @@ const generateSite = (data) => {
                 <h1 class="display-3">My Team</h1>
             </div>
         </div>
-        ${generateCard(data)}
+        <div class="card-deck">
+            ${generateManagerCard(data)}
+            ${generateCard(data.newMember)}
+        </div>
     </body>
     </html>
     `;
